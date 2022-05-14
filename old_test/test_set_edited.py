@@ -1,6 +1,6 @@
 import unittest
-from test import support
-from .support import warnings_helper
+# from test import support
+# from test.support import warnings_helper
 import gc
 import weakref
 import operator
@@ -12,7 +12,8 @@ import collections
 import collections.abc
 import itertools
 
-from pydbcollect import DBSet as set
+from pydbcollect import DBSet
+
 
 class PassThru(Exception):
     pass
@@ -53,7 +54,7 @@ class TestJointOps:
     def test_new_or_init(self):
         self.assertRaises(TypeError, self.thetype, [], 2)
         # UNSUP: keyword_init
-        # self.assertRaises(TypeError, set().__init__, a=1)
+        # self.assertRaises(TypeError, DBSet().__init__, a=1)
 
     def test_uniquification(self):
         actual = sorted(self.s)
@@ -82,19 +83,19 @@ class TestJointOps:
         self.assertRaises(PassThru, self.s.union, check_pass_thru())
         self.assertRaises(TypeError, self.s.union, [[]])
         for C in set, frozenset, dict.fromkeys, str, list, tuple:
-            self.assertEqual(self.thetype('abcba').union(C('cdc')), set('abcd'))
-            self.assertEqual(self.thetype('abcba').union(C('efgfe')), set('abcefg'))
-            self.assertEqual(self.thetype('abcba').union(C('ccb')), set('abc'))
-            self.assertEqual(self.thetype('abcba').union(C('ef')), set('abcef'))
-            self.assertEqual(self.thetype('abcba').union(C('ef'), C('fg')), set('abcefg'))
+            self.assertEqual(self.thetype('abcba').union(C('cdc')), DBSet('abcd'))
+            self.assertEqual(self.thetype('abcba').union(C('efgfe')), DBSet('abcefg'))
+            self.assertEqual(self.thetype('abcba').union(C('ccb')), DBSet('abc'))
+            self.assertEqual(self.thetype('abcba').union(C('ef')), DBSet('abcef'))
+            self.assertEqual(self.thetype('abcba').union(C('ef'), C('fg')), DBSet('abcefg'))
 
         # Issue #6573
         x = self.thetype()
-        self.assertEqual(x.union(set([1]), x, set([2])), self.thetype([1, 2]))
+        self.assertEqual(x.union(DBSet([1]), x, DBSet([2])), self.thetype([1, 2]))
 
     def test_or(self):
         i = self.s.union(self.otherword)
-        self.assertEqual(self.s | set(self.otherword), i)
+        self.assertEqual(self.s | DBSet(self.otherword), i)
         self.assertEqual(self.s | frozenset(self.otherword), i)
         try:
             self.s | self.otherword
@@ -111,11 +112,11 @@ class TestJointOps:
         self.assertEqual(type(i), self.basetype)
         self.assertRaises(PassThru, self.s.intersection, check_pass_thru())
         for C in set, frozenset, dict.fromkeys, str, list, tuple:
-            self.assertEqual(self.thetype('abcba').intersection(C('cdc')), set('cc'))
-            self.assertEqual(self.thetype('abcba').intersection(C('efgfe')), set(''))
-            self.assertEqual(self.thetype('abcba').intersection(C('ccb')), set('bc'))
-            self.assertEqual(self.thetype('abcba').intersection(C('ef')), set(''))
-            self.assertEqual(self.thetype('abcba').intersection(C('cbcf'), C('bag')), set('b'))
+            self.assertEqual(self.thetype('abcba').intersection(C('cdc')), DBSet('cc'))
+            self.assertEqual(self.thetype('abcba').intersection(C('efgfe')), DBSet(''))
+            self.assertEqual(self.thetype('abcba').intersection(C('ccb')), DBSet('bc'))
+            self.assertEqual(self.thetype('abcba').intersection(C('ef')), DBSet(''))
+            self.assertEqual(self.thetype('abcba').intersection(C('cbcf'), C('bag')), DBSet('b'))
         s = self.thetype('abcba')
         z = s.intersection()
         if self.thetype == frozenset():
@@ -126,7 +127,7 @@ class TestJointOps:
     def test_isdisjoint(self):
         def f(s1, s2):
             'Pure python equivalent of isdisjoint()'
-            return not set(s1).intersection(s2)
+            return not DBSet(s1).intersection(s2)
         for larg in '', 'a', 'ab', 'abc', 'ababac', 'cdc', 'cc', 'efgfe', 'ccb', 'ef':
             s1 = self.thetype(larg)
             for rarg in '', 'a', 'ab', 'abc', 'ababac', 'cdc', 'cc', 'efgfe', 'ccb', 'ef':
@@ -139,7 +140,7 @@ class TestJointOps:
 
     def test_and(self):
         i = self.s.intersection(self.otherword)
-        self.assertEqual(self.s & set(self.otherword), i)
+        self.assertEqual(self.s & DBSet(self.otherword), i)
         self.assertEqual(self.s & frozenset(self.otherword), i)
         try:
             self.s & self.otherword
@@ -157,16 +158,16 @@ class TestJointOps:
         self.assertRaises(PassThru, self.s.difference, check_pass_thru())
         self.assertRaises(TypeError, self.s.difference, [[]])
         for C in set, frozenset, dict.fromkeys, str, list, tuple:
-            self.assertEqual(self.thetype('abcba').difference(C('cdc')), set('ab'))
-            self.assertEqual(self.thetype('abcba').difference(C('efgfe')), set('abc'))
-            self.assertEqual(self.thetype('abcba').difference(C('ccb')), set('a'))
-            self.assertEqual(self.thetype('abcba').difference(C('ef')), set('abc'))
-            self.assertEqual(self.thetype('abcba').difference(), set('abc'))
-            self.assertEqual(self.thetype('abcba').difference(C('a'), C('b')), set('c'))
+            self.assertEqual(self.thetype('abcba').difference(C('cdc')), DBSet('ab'))
+            self.assertEqual(self.thetype('abcba').difference(C('efgfe')), DBSet('abc'))
+            self.assertEqual(self.thetype('abcba').difference(C('ccb')), DBSet('a'))
+            self.assertEqual(self.thetype('abcba').difference(C('ef')), DBSet('abc'))
+            self.assertEqual(self.thetype('abcba').difference(), DBSet('abc'))
+            self.assertEqual(self.thetype('abcba').difference(C('a'), C('b')), DBSet('c'))
 
     def test_sub(self):
         i = self.s.difference(self.otherword)
-        self.assertEqual(self.s - set(self.otherword), i)
+        self.assertEqual(self.s - DBSet(self.otherword), i)
         self.assertEqual(self.s - frozenset(self.otherword), i)
         try:
             self.s - self.otherword
@@ -184,14 +185,14 @@ class TestJointOps:
         self.assertRaises(PassThru, self.s.symmetric_difference, check_pass_thru())
         self.assertRaises(TypeError, self.s.symmetric_difference, [[]])
         for C in set, frozenset, dict.fromkeys, str, list, tuple:
-            self.assertEqual(self.thetype('abcba').symmetric_difference(C('cdc')), set('abd'))
-            self.assertEqual(self.thetype('abcba').symmetric_difference(C('efgfe')), set('abcefg'))
-            self.assertEqual(self.thetype('abcba').symmetric_difference(C('ccb')), set('a'))
-            self.assertEqual(self.thetype('abcba').symmetric_difference(C('ef')), set('abcef'))
+            self.assertEqual(self.thetype('abcba').symmetric_difference(C('cdc')), DBSet('abd'))
+            self.assertEqual(self.thetype('abcba').symmetric_difference(C('efgfe')), DBSet('abcefg'))
+            self.assertEqual(self.thetype('abcba').symmetric_difference(C('ccb')), DBSet('a'))
+            self.assertEqual(self.thetype('abcba').symmetric_difference(C('ef')), DBSet('abcef'))
 
     def test_xor(self):
         i = self.s.symmetric_difference(self.otherword)
-        self.assertEqual(self.s ^ set(self.otherword), i)
+        self.assertEqual(self.s ^ DBSet(self.otherword), i)
         self.assertEqual(self.s ^ frozenset(self.otherword), i)
         try:
             self.s ^ self.otherword
@@ -201,10 +202,10 @@ class TestJointOps:
             self.fail("s^t did not screen-out general iterables")
 
     def test_equality(self):
-        self.assertEqual(self.s, set(self.word))
+        self.assertEqual(self.s, DBSet(self.word))
         self.assertEqual(self.s, frozenset(self.word))
         self.assertEqual(self.s == self.word, False)
-        self.assertNotEqual(self.s, set(self.otherword))
+        self.assertNotEqual(self.s, DBSet(self.otherword))
         self.assertNotEqual(self.s, frozenset(self.otherword))
         self.assertEqual(self.s != self.word, True)
 
@@ -224,89 +225,86 @@ class TestJointOps:
         self.assertFalse(q <= r)
         self.assertFalse(q > r)
         self.assertFalse(q >= r)
-        self.assertTrue(set('a').issubset('abc'))
-        self.assertTrue(set('abc').issuperset('a'))
-        self.assertFalse(set('a').issubset('cbs'))
-        self.assertFalse(set('cbs').issuperset('a'))
+        self.assertTrue(DBSet('a').issubset('abc'))
+        self.assertTrue(DBSet('abc').issuperset('a'))
+        self.assertFalse(DBSet('a').issubset('cbs'))
+        self.assertFalse(DBSet('cbs').issuperset('a'))
 
     def test_pickling(self):
         for i in range(pickle.HIGHEST_PROTOCOL + 1):
-            if type(self.s) not in (set, frozenset):
-                self.s.x = ['x']
-                self.s.z = ['z']
             p = pickle.dumps(self.s, i)
             dup = pickle.loads(p)
             self.assertEqual(self.s, dup, "%s != %s" % (self.s, dup))
             if type(self.s) not in (set, frozenset):
+                self.s.x = 10
+                p = pickle.dumps(self.s, i)
+                dup = pickle.loads(p)
                 self.assertEqual(self.s.x, dup.x)
-                self.assertEqual(self.s.z, dup.z)
-                self.assertFalse(hasattr(self.s, 'y'))
-                del self.s.x, self.s.z
 
     # UNSUP: don't want to make iterator pickleable
-    def test_iterator_pickling(self):
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
-            itorg = iter(self.s)
-            data = self.thetype(self.s)
-            d = pickle.dumps(itorg, proto)
-            it = pickle.loads(d)
-            # Set iterators unpickle as list iterators due to the
-            # undefined order of set items.
-            # self.assertEqual(type(itorg), type(it))
-            self.assertIsInstance(it, collections.abc.Iterator)
-            self.assertEqual(self.thetype(it), data)
+    # def test_iterator_pickling(self):
+    #     for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+    #         itorg = iter(self.s)
+    #         data = self.thetype(self.s)
+    #         d = pickle.dumps(itorg, proto)
+    #         it = pickle.loads(d)
+    #         # Set iterators unpickle as list iterators due to the
+    #         # undefined order of set items.
+    #         # self.assertEqual(type(itorg), type(it))
+    #         self.assertIsInstance(it, collections.abc.Iterator)
+    #         self.assertEqual(self.thetype(it), data)
+    #
+    #         it = pickle.loads(d)
+    #         try:
+    #             drop = next(it)
+    #         except StopIteration:
+    #             continue
+    #         d = pickle.dumps(it, proto)
+    #         it = pickle.loads(d)
+    #         self.assertEqual(self.thetype(it), data - self.thetype((drop,)))
 
-            it = pickle.loads(d)
-            try:
-                drop = next(it)
-            except StopIteration:
-                continue
-            d = pickle.dumps(it, proto)
-            it = pickle.loads(d)
-            self.assertEqual(self.thetype(it), data - self.thetype((drop,)))
+    # UNSUP: unpickleable
+    # def test_deepcopy(self):
+    #     class Tracer:
+    #         def __init__(self, value):
+    #             self.value = value
+    #         def __hash__(self):
+    #             return self.value
+    #         def __deepcopy__(self, memo=None):
+    #             return Tracer(self.value + 1)
+    #     t = Tracer(10)
+    #     s = self.thetype([t])
+    #     dup = copy.deepcopy(s)
+    #     self.assertNotEqual(id(s), id(dup))
+    #     for elem in dup:
+    #         newt = elem
+    #     self.assertNotEqual(id(t), id(newt))
+    #     self.assertEqual(t.value + 1, newt.value)
 
-    # UNSUP: unpickleable inner class
-    def test_deepcopy(self):
-        class Tracer:
-            def __init__(self, value):
-                self.value = value
-            def __hash__(self):
-                return self.value
-            def __deepcopy__(self, memo=None):
-                return Tracer(self.value + 1)
-        t = Tracer(10)
-        s = self.thetype([t])
-        dup = copy.deepcopy(s)
-        self.assertNotEqual(id(s), id(dup))
-        for elem in dup:
-            newt = elem
-        self.assertNotEqual(id(t), id(newt))
-        self.assertEqual(t.value + 1, newt.value)
+    # UNSUP: unpickleable
+    # def test_gc(self):
+    #     # Create a nest of cycles to exercise overall ref count check
+    #     class A:
+    #         pass
+    #     s = DBSet(A() for i in range(1000))
+    #     for elem in s:
+    #         elem.cycle = s
+    #         elem.sub = elem
+    #         elem.set = DBSet([elem])
 
-    # UNSUP: unpickleable inner class
-    def test_gc(self):
-        # Create a nest of cycles to exercise overall ref count check
-        class A:
-            pass
-        s = set(A() for i in range(1000))
-        for elem in s:
-            elem.cycle = s
-            elem.sub = elem
-            elem.set = set([elem])
-
-    # UNSUP: unpickleable inner class
-    def test_subclass_with_custom_hash(self):
-        # Bug #1257731
-        class H(self.thetype):
-            def __hash__(self):
-                return int(id(self) & 0x7fffffff)
-        s=H()
-        f=set()
-        f.add(s)
-        self.assertIn(s, f)
-        f.remove(s)
-        f.add(s)
-        f.discard(s)
+    # UNSUP: unpickleable
+    # def test_subclass_with_custom_hash(self):
+    #     # Bug #1257731
+    #     class H(self.thetype):
+    #         def __hash__(self):
+    #             return int(id(self) & 0x7fffffff)
+    #     s=H()
+    #     f=DBSet()
+    #     f.add(s)
+    #     self.assertIn(s, f)
+    #     f.remove(s)
+    #     f.add(s)
+    #     f.discard(s)
 
     def test_badcmp(self):
         s = self.thetype([BadCmp()])
@@ -318,65 +316,64 @@ class TestJointOps:
             self.assertRaises(RuntimeError, s.add, BadCmp())
             self.assertRaises(RuntimeError, s.discard, BadCmp())
             self.assertRaises(RuntimeError, s.remove, BadCmp())
-
-    # UNSUP: self reference
-    def test_cyclical_repr(self):
-        w = ReprWrapper()
-        s = self.thetype([w])
-        w.value = s
-        if self.thetype == set:
-            self.assertEqual(repr(s), '{set(...)}')
-        else:
-            name = repr(s).partition('(')[0]    # strip class name
-            self.assertEqual(repr(s), '%s({%s(...)})' % (name, name))
+    # UNSUP: self_reference
+    # def test_cyclical_repr(self):
+    #     w = ReprWrapper()
+    #     s = self.thetype([w])
+    #     w.value = s
+    #     if self.thetype == set:
+    #         self.assertEqual(repr(s), '{set(...)}')
+    #     else:
+    #         name = repr(s).partition('(')[0]    # strip class name
+    #         self.assertEqual(repr(s), '%s({%s(...)})' % (name, name))
 
     # UNSUP: optimization
-    def test_do_not_rehash_dict_keys(self):
-        n = 10
-        d = dict.fromkeys(map(HashCountingInt, range(n)))
-        self.assertEqual(sum(elem.hash_count for elem in d), n)
-        s = self.thetype(d)
-        self.assertEqual(sum(elem.hash_count for elem in d), n)
-        s.difference(d)
-        self.assertEqual(sum(elem.hash_count for elem in d), n)
-        if hasattr(s, 'symmetric_difference_update'):
-            s.symmetric_difference_update(d)
-        self.assertEqual(sum(elem.hash_count for elem in d), n)
-        d2 = dict.fromkeys(set(d))
-        self.assertEqual(sum(elem.hash_count for elem in d), n)
-        d3 = dict.fromkeys(frozenset(d))
-        self.assertEqual(sum(elem.hash_count for elem in d), n)
-        d3 = dict.fromkeys(frozenset(d), 123)
-        self.assertEqual(sum(elem.hash_count for elem in d), n)
-        self.assertEqual(d3, dict.fromkeys(d, 123))
+    # def test_do_not_rehash_dict_keys(self):
+    #     n = 10
+    #     d = dict.fromkeys(map(HashCountingInt, range(n)))
+    #     self.assertEqual(sum(elem.hash_count for elem in d), n)
+    #     s = self.thetype(d)
+    #     self.assertEqual(sum(elem.hash_count for elem in d), n)
+    #     s.difference(d)
+    #     self.assertEqual(sum(elem.hash_count for elem in d), n)
+    #     if hasattr(s, 'symmetric_difference_update'):
+    #         s.symmetric_difference_update(d)
+    #     self.assertEqual(sum(elem.hash_count for elem in d), n)
+    #     d2 = dict.fromkeys(DBSet(d))
+    #     self.assertEqual(sum(elem.hash_count for elem in d), n)
+    #     d3 = dict.fromkeys(frozenset(d))
+    #     self.assertEqual(sum(elem.hash_count for elem in d), n)
+    #     d3 = dict.fromkeys(frozenset(d), 123)
+    #     self.assertEqual(sum(elem.hash_count for elem in d), n)
+    #     self.assertEqual(d3, dict.fromkeys(d, 123))
 
     # UNSUP: unpickleable
-    def test_container_iterator(self):
-        # Bug #3680: tp_traverse was not implemented for set iterator object
-        class C(object):
-            pass
-        obj = C()
-        ref = weakref.ref(obj)
-        container = set([obj, 1])
-        obj.x = iter(container)
-        del obj, container
-        gc.collect()
-        self.assertTrue(ref() is None, "Cycle was not collected")
+    # def test_container_iterator(self):
+    #     # Bug #3680: tp_traverse was not implemented for set iterator object
+    #     class C(object):
+    #         pass
+    #     obj = C()
+    #     ref = weakref.ref(obj)
+    #     container = DBSet([obj, 1])
+    #     obj.x = iter(container)
+    #     del obj, container
+    #     gc.collect()
+    #     self.assertTrue(ref() is None, "Cycle was not collected")
 
     # UNSUP: unpickleable
-    def test_free_after_iterating(self):
-        support.check_free_after_iterating(self, iter, self.thetype)
+    # def test_free_after_iterating(self):
+    #     support.check_free_after_iterating(self, iter, self.thetype)
 
 class TestSet(TestJointOps, unittest.TestCase):
-    thetype = set
-    basetype = set
+    thetype = DBSet
+    basetype = DBSet
 
     def test_init(self):
         s = self.thetype()
         s.__init__(self.word)
-        self.assertEqual(s, set(self.word))
+        self.assertEqual(s, DBSet(self.word))
         s.__init__(self.otherword)
-        self.assertEqual(s, set(self.otherword))
+        self.assertEqual(s, DBSet(self.otherword))
         self.assertRaises(TypeError, s.__init__, s, 2)
         self.assertRaises(TypeError, s.__init__, 1)
 
@@ -386,7 +383,7 @@ class TestSet(TestJointOps, unittest.TestCase):
         self.assertNotEqual(id(s), id(t))
 
     def test_set_literal(self):
-        s = set([1,2,3])
+        s = DBSet([1,2,3])
         t = {1,2,3}
         self.assertEqual(s, t)
 
@@ -410,7 +407,7 @@ class TestSet(TestJointOps, unittest.TestCase):
 
     def test_clear(self):
         self.s.clear()
-        self.assertEqual(self.s, set())
+        self.assertEqual(self.s, DBSet())
         self.assertEqual(len(self.s), 0)
 
     def test_copy(self):
@@ -432,7 +429,7 @@ class TestSet(TestJointOps, unittest.TestCase):
         self.assertNotIn('a', self.s)
         self.assertRaises(KeyError, self.s.remove, 'Q')
         self.assertRaises(TypeError, self.s.remove, [])
-        # UNSUP: DBSet does not support "containing" other DBSets
+        # UNSUP: DBSet_argument
         # s = self.thetype([frozenset(self.word)])
         # self.assertIn(self.thetype(self.word), s)
         # s.remove(self.thetype(self.word))
@@ -450,24 +447,24 @@ class TestSet(TestJointOps, unittest.TestCase):
             else:
                 self.fail()
 
-    # UNSUP: DBSet does not support "containing" other DBSets
-    def test_remove_keyerror_set(self):
-        key = self.thetype([3, 4])
-        try:
-            self.s.remove(key)
-        except KeyError as e:
-            self.assertTrue(e.args[0] is key,
-                         "KeyError should be {0}, not {1}".format(key,
-                                                                  e.args[0]))
-        else:
-            self.fail()
+    # UNSUP: DBSet_argument, not sure what to call this but there is special behavior when argument to certain methods is set
+    # def test_remove_keyerror_set(self):
+    #     key = self.thetype([3, 4])
+    #     try:
+    #         self.s.remove(key)
+    #     except KeyError as e:
+    #         self.assertTrue(e.args[0] is key,
+    #                      "KeyError should be {0}, not {1}".format(key,
+    #                                                               e.args[0]))
+    #     else:
+    #         self.fail()
 
     def test_discard(self):
         self.s.discard('a')
         self.assertNotIn('a', self.s)
         self.s.discard('Q')
         self.assertRaises(TypeError, self.s.discard, [])
-        # UNSUP: DBSet does not support "containing" other DBSets
+        # UNSUP: nesting
         # s = self.thetype([frozenset(self.word)])
         # self.assertIn(self.thetype(self.word), s)
         # s.discard(self.thetype(self.word))
@@ -491,16 +488,16 @@ class TestSet(TestJointOps, unittest.TestCase):
             for C in set, frozenset, dict.fromkeys, str, list, tuple:
                 s = self.thetype('abcba')
                 self.assertEqual(s.update(C(p)), None)
-                self.assertEqual(s, set(q))
+                self.assertEqual(s, DBSet(q))
         for p in ('cdc', 'efgfe', 'ccb', 'ef', 'abcda'):
             q = 'ahi'
             for C in set, frozenset, dict.fromkeys, str, list, tuple:
                 s = self.thetype('abcba')
                 self.assertEqual(s.update(C(p), C(q)), None)
-                self.assertEqual(s, set(s) | set(p) | set(q))
+                self.assertEqual(s, DBSet(s) | DBSet(p) | DBSet(q))
 
     def test_ior(self):
-        self.s |= set(self.otherword)
+        self.s |= DBSet(self.otherword)
         for c in (self.word + self.otherword):
             self.assertIn(c, self.s)
 
@@ -518,15 +515,15 @@ class TestSet(TestJointOps, unittest.TestCase):
             for C in set, frozenset, dict.fromkeys, str, list, tuple:
                 s = self.thetype('abcba')
                 self.assertEqual(s.intersection_update(C(p)), None)
-                self.assertEqual(s, set(q))
+                self.assertEqual(s, DBSet(q))
                 ss = 'abcba'
                 s = self.thetype(ss)
                 t = 'cbc'
                 self.assertEqual(s.intersection_update(C(p), C(t)), None)
-                self.assertEqual(s, set('abcba')&set(p)&set(t))
+                self.assertEqual(s, DBSet('abcba')&DBSet(p)&DBSet(t))
 
     def test_iand(self):
-        self.s &= set(self.otherword)
+        self.s &= DBSet(self.otherword)
         for c in (self.word + self.otherword):
             if c in self.otherword and c in self.word:
                 self.assertIn(c, self.s)
@@ -548,7 +545,7 @@ class TestSet(TestJointOps, unittest.TestCase):
             for C in set, frozenset, dict.fromkeys, str, list, tuple:
                 s = self.thetype('abcba')
                 self.assertEqual(s.difference_update(C(p)), None)
-                self.assertEqual(s, set(q))
+                self.assertEqual(s, DBSet(q))
 
                 s = self.thetype('abcdefghih')
                 s.difference_update()
@@ -563,7 +560,7 @@ class TestSet(TestJointOps, unittest.TestCase):
                 self.assertEqual(s, self.thetype('efghih'))
 
     def test_isub(self):
-        self.s -= set(self.otherword)
+        self.s -= DBSet(self.otherword)
         for c in (self.word + self.otherword):
             if c in self.word and c not in self.otherword:
                 self.assertIn(c, self.s)
@@ -584,10 +581,10 @@ class TestSet(TestJointOps, unittest.TestCase):
             for C in set, frozenset, dict.fromkeys, str, list, tuple:
                 s = self.thetype('abcba')
                 self.assertEqual(s.symmetric_difference_update(C(p)), None)
-                self.assertEqual(s, set(q))
+                self.assertEqual(s, DBSet(q))
 
     def test_ixor(self):
-        self.s ^= set(self.otherword)
+        self.s ^= DBSet(self.otherword)
         for c in (self.word + self.otherword):
             if (c in self.word) ^ (c in self.otherword):
                 self.assertIn(c, self.s)
@@ -611,7 +608,7 @@ class TestSet(TestJointOps, unittest.TestCase):
         p = weakref.proxy(s)
         self.assertEqual(str(p), str(s))
         s = None
-        support.gc_collect()  # For PyPy or other GCs.
+        # support.gc_collect()  # For PyPy or other GCs.
         self.assertRaises(ReferenceError, str, p)
 
     def test_rich_compare(self):
@@ -826,24 +823,9 @@ class TestFrozenSetSubclass(TestFrozenSet):
         # All empty frozenset subclass instances should have different ids
         self.assertEqual(len(set(map(id, efs))), len(efs))
 
-
-class SetSubclassWithSlots(set):
-    __slots__ = ('x', 'y', '__dict__')
-
-class TestSetSubclassWithSlots(unittest.TestCase):
-    thetype = SetSubclassWithSlots
-    setUp = TestJointOps.setUp
-    test_pickling = TestJointOps.test_pickling
-
-class FrozenSetSubclassWithSlots(frozenset):
-    __slots__ = ('x', 'y', '__dict__')
-
-class TestFrozenSetSubclassWithSlots(TestSetSubclassWithSlots):
-    thetype = FrozenSetSubclassWithSlots
-
 # Tests taken from test_sets.py =============================================
 
-empty_set = set()
+empty_set = DBSet()
 
 #==============================================================================
 
@@ -957,10 +939,10 @@ class TestBasicOpsEmpty(TestBasicOps, unittest.TestCase):
     def setUp(self):
         self.case   = "empty set"
         self.values = []
-        self.set    = set(self.values)
-        self.dup    = set(self.values)
+        self.set    = DBSet(self.values)
+        self.dup    = DBSet(self.values)
         self.length = 0
-        self.repr   = "set()"
+        self.repr   = "dbset()"
 
 #------------------------------------------------------------------------------
 
@@ -968,8 +950,8 @@ class TestBasicOpsSingleton(TestBasicOps, unittest.TestCase):
     def setUp(self):
         self.case   = "unit set (number)"
         self.values = [3]
-        self.set    = set(self.values)
-        self.dup    = set(self.values)
+        self.set    = DBSet(self.values)
+        self.dup    = DBSet(self.values)
         self.length = 1
         self.repr   = "{3}"
 
@@ -985,8 +967,8 @@ class TestBasicOpsTuple(TestBasicOps, unittest.TestCase):
     def setUp(self):
         self.case   = "unit set (tuple)"
         self.values = [(0, "zero")]
-        self.set    = set(self.values)
-        self.dup    = set(self.values)
+        self.set    = DBSet(self.values)
+        self.dup    = DBSet(self.values)
         self.length = 1
         self.repr   = "{(0, 'zero')}"
 
@@ -1002,8 +984,8 @@ class TestBasicOpsTriple(TestBasicOps, unittest.TestCase):
     def setUp(self):
         self.case   = "triple set"
         self.values = [0, "zero", operator.add]
-        self.set    = set(self.values)
-        self.dup    = set(self.values)
+        self.set    = DBSet(self.values)
+        self.dup    = DBSet(self.values)
         self.length = 3
         self.repr   = None
 
@@ -1013,8 +995,8 @@ class TestBasicOpsString(TestBasicOps, unittest.TestCase):
     def setUp(self):
         self.case   = "string set"
         self.values = ["a", "b", "c"]
-        self.set    = set(self.values)
-        self.dup    = set(self.values)
+        self.set    = DBSet(self.values)
+        self.dup    = DBSet(self.values)
         self.length = 3
 
     def test_repr(self):
@@ -1026,8 +1008,8 @@ class TestBasicOpsBytes(TestBasicOps, unittest.TestCase):
     def setUp(self):
         self.case   = "bytes set"
         self.values = [b"a", b"b", b"c"]
-        self.set    = set(self.values)
-        self.dup    = set(self.values)
+        self.set    = DBSet(self.values)
+        self.dup    = DBSet(self.values)
         self.length = 3
 
     def test_repr(self):
@@ -1035,18 +1017,22 @@ class TestBasicOpsBytes(TestBasicOps, unittest.TestCase):
 
 #------------------------------------------------------------------------------
 
-class TestBasicOpsMixedStringBytes(TestBasicOps, unittest.TestCase):
-    def setUp(self):
-        self.enterContext(warnings_helper.check_warnings())
-        warnings.simplefilter('ignore', BytesWarning)
-        self.case   = "string and bytes set"
-        self.values = ["a", "b", b"a", b"b"]
-        self.set    = set(self.values)
-        self.dup    = set(self.values)
-        self.length = 4
-
-    def test_repr(self):
-        self.check_repr_against_values()
+# class TestBasicOpsMixedStringBytes(TestBasicOps, unittest.TestCase):
+#     def setUp(self):
+#         self._warning_filters = warnings_helper.check_warnings()
+#         self._warning_filters.__enter__()
+#         warnings.simplefilter('ignore', BytesWarning)
+#         self.case   = "string and bytes set"
+#         self.values = ["a", "b", b"a", b"b"]
+#         self.set    = set(self.values)
+#         self.dup    = set(self.values)
+#         self.length = 4
+#
+#     def tearDown(self):
+#         self._warning_filters.__exit__(None, None, None)
+#
+#     def test_repr(self):
+#         self.check_repr_against_values()
 
 #==============================================================================
 
@@ -1065,15 +1051,15 @@ class TestExceptionPropagation(unittest.TestCase):
 
     def test_instancesWithoutException(self):
         # All of these iterables should load without exception.
-        set([1,2,3])
-        set((1,2,3))
-        set({'one':1, 'two':2, 'three':3})
-        set(range(3))
-        set('abc')
-        set(gooditer())
+        DBSet([1,2,3])
+        DBSet((1,2,3))
+        DBSet({'one':1, 'two':2, 'three':3})
+        DBSet(range(3))
+        DBSet('abc')
+        DBSet(gooditer())
 
     def test_changingSizeWhileIterating(self):
-        s = set([1,2,3])
+        s = DBSet([1,2,3])
         try:
             for i in s:
                 s.update([4])
@@ -1099,7 +1085,7 @@ class TestSetOfSets(unittest.TestCase):
 
 class TestBinaryOps(unittest.TestCase):
     def setUp(self):
-        self.set = set((2, 4, 6))
+        self.set = DBSet((2, 4, 6))
 
     def test_eq(self):              # SF bug 643115
         self.assertEqual(self.set, set({2:1,4:3,6:5}))
@@ -1172,7 +1158,7 @@ class TestBinaryOps(unittest.TestCase):
 
 class TestUpdateOps(unittest.TestCase):
     def setUp(self):
-        self.set = set((2, 4, 6))
+        self.set = DBSet((2, 4, 6))
 
     def test_union_subset(self):
         self.set |= set([2])
@@ -1259,7 +1245,7 @@ class TestUpdateOps(unittest.TestCase):
 class TestMutate(unittest.TestCase):
     def setUp(self):
         self.values = ["a", "b", "c"]
-        self.set = set(self.values)
+        self.set = DBSet(self.values)
 
     def test_add_present(self):
         self.set.add("c")
@@ -1369,40 +1355,40 @@ class TestSubsets:
 #------------------------------------------------------------------------------
 
 class TestSubsetEqualEmpty(TestSubsets, unittest.TestCase):
-    left  = set()
-    right = set()
+    left  = DBSet()
+    right = DBSet()
     name  = "both empty"
     cases = "==", "<=", ">="
 
 #------------------------------------------------------------------------------
 
 class TestSubsetEqualNonEmpty(TestSubsets, unittest.TestCase):
-    left  = set([1, 2])
-    right = set([1, 2])
+    left  = DBSet([1, 2])
+    right = DBSet([1, 2])
     name  = "equal pair"
     cases = "==", "<=", ">="
 
 #------------------------------------------------------------------------------
 
 class TestSubsetEmptyNonEmpty(TestSubsets, unittest.TestCase):
-    left  = set()
-    right = set([1, 2])
+    left  = DBSet()
+    right = DBSet([1, 2])
     name  = "one empty, one non-empty"
     cases = "!=", "<", "<="
 
 #------------------------------------------------------------------------------
 
 class TestSubsetPartial(TestSubsets, unittest.TestCase):
-    left  = set([1])
-    right = set([1, 2])
+    left  = DBSet([1])
+    right = DBSet([1, 2])
     name  = "one a non-empty proper subset of other"
     cases = "!=", "<", "<="
 
 #------------------------------------------------------------------------------
 
 class TestSubsetNonOverlap(TestSubsets, unittest.TestCase):
-    left  = set([1])
-    right = set([2])
+    left  = DBSet([1])
+    right = DBSet([2])
     name  = "neither empty, neither contains"
     cases = "!="
 
@@ -1526,7 +1512,7 @@ class TestOnlySetsInBinaryOps:
 
 class TestOnlySetsNumeric(TestOnlySetsInBinaryOps, unittest.TestCase):
     def setUp(self):
-        self.set   = set((1, 2, 3))
+        self.set   = DBSet((1, 2, 3))
         self.other = 19
         self.otherIsIterable = False
 
@@ -1534,7 +1520,7 @@ class TestOnlySetsNumeric(TestOnlySetsInBinaryOps, unittest.TestCase):
 
 class TestOnlySetsDict(TestOnlySetsInBinaryOps, unittest.TestCase):
     def setUp(self):
-        self.set   = set((1, 2, 3))
+        self.set   = DBSet((1, 2, 3))
         self.other = {1:2, 3:4}
         self.otherIsIterable = True
 
@@ -1542,7 +1528,7 @@ class TestOnlySetsDict(TestOnlySetsInBinaryOps, unittest.TestCase):
 
 class TestOnlySetsOperator(TestOnlySetsInBinaryOps, unittest.TestCase):
     def setUp(self):
-        self.set   = set((1, 2, 3))
+        self.set   = DBSet((1, 2, 3))
         self.other = operator.add
         self.otherIsIterable = False
 
@@ -1550,7 +1536,7 @@ class TestOnlySetsOperator(TestOnlySetsInBinaryOps, unittest.TestCase):
 
 class TestOnlySetsTuple(TestOnlySetsInBinaryOps, unittest.TestCase):
     def setUp(self):
-        self.set   = set((1, 2, 3))
+        self.set   = DBSet((1, 2, 3))
         self.other = (2, 4, 6)
         self.otherIsIterable = True
 
@@ -1558,7 +1544,7 @@ class TestOnlySetsTuple(TestOnlySetsInBinaryOps, unittest.TestCase):
 
 class TestOnlySetsString(TestOnlySetsInBinaryOps, unittest.TestCase):
     def setUp(self):
-        self.set   = set((1, 2, 3))
+        self.set   = DBSet((1, 2, 3))
         self.other = 'abc'
         self.otherIsIterable = True
 
@@ -1569,7 +1555,7 @@ class TestOnlySetsGenerator(TestOnlySetsInBinaryOps, unittest.TestCase):
         def gen():
             for i in range(0, 10, 2):
                 yield i
-        self.set   = set((1, 2, 3))
+        self.set   = DBSet((1, 2, 3))
         self.other = gen()
         self.otherIsIterable = True
 
@@ -1577,13 +1563,13 @@ class TestOnlySetsGenerator(TestOnlySetsInBinaryOps, unittest.TestCase):
 
 class TestCopying:
     # UNSUP: database entries don't have memory addresses
-    def test_copy(self):
-        dup = self.set.copy()
-        dup_list = sorted(dup, key=repr)
-        set_list = sorted(self.set, key=repr)
-        self.assertEqual(len(dup_list), len(set_list))
-        for i in range(len(dup_list)):
-            self.assertTrue(dup_list[i] is set_list[i])
+    # def test_copy(self):
+    #     dup = self.set.copy()
+    #     dup_list = sorted(dup, key=repr)
+    #     set_list = sorted(self.set, key=repr)
+    #     self.assertEqual(len(dup_list), len(set_list))
+    #     for i in range(len(dup_list)):
+    #         self.assertTrue(dup_list[i] is set_list[i])
 
     def test_deep_copy(self):
         dup = copy.deepcopy(self.set)
@@ -1598,19 +1584,19 @@ class TestCopying:
 
 class TestCopyingEmpty(TestCopying, unittest.TestCase):
     def setUp(self):
-        self.set = set()
+        self.set = DBSet()
 
 #------------------------------------------------------------------------------
 
 class TestCopyingSingleton(TestCopying, unittest.TestCase):
     def setUp(self):
-        self.set = set(["hello"])
+        self.set = DBSet(["hello"])
 
 #------------------------------------------------------------------------------
 
 class TestCopyingTriple(TestCopying, unittest.TestCase):
     def setUp(self):
-        self.set = set(["zero", 0, None])
+        self.set = DBSet(["zero", 0, None])
 
 #------------------------------------------------------------------------------
 
@@ -1628,8 +1614,8 @@ class TestCopyingNested(TestCopying, unittest.TestCase):
 
 class TestIdentities(unittest.TestCase):
     def setUp(self):
-        self.a = set('abracadabra')
-        self.b = set('alacazam')
+        self.a = DBSet('abracadabra')
+        self.b = DBSet('alacazam')
 
     def test_binopsVsSubsets(self):
         a, b = self.a, self.b
@@ -1749,7 +1735,7 @@ def L(seqn):
 class TestVariousIteratorArgs(unittest.TestCase):
 
     def test_constructor(self):
-        for cons in (set, frozenset):
+        for cons in (DBSet, frozenset):
             for s in ("123", "", range(1000), ('do', 1.2), range(2000,2200,5)):
                 for g in (G, I, Ig, S, L, R):
                     self.assertEqual(sorted(cons(g(s)), key=repr), sorted(g(s), key=repr))
@@ -1758,12 +1744,13 @@ class TestVariousIteratorArgs(unittest.TestCase):
                 self.assertRaises(ZeroDivisionError, cons , E(s))
 
     def test_inline_methods(self):
-        s = set('november')
+        s = DBSet('november')
         for data in ("123", "", range(1000), ('do', 1.2), range(2000,2200,5), 'december'):
             for meth in (s.union, s.intersection, s.difference, s.symmetric_difference, s.isdisjoint):
                 for g in (G, I, Ig, L, R):
                     expected = meth(data)
                     actual = meth(g(data))
+                    print(repr(meth), data, g, expected, actual)
                     if isinstance(expected, bool):
                         self.assertEqual(actual, expected)
                     else:
@@ -1777,7 +1764,7 @@ class TestVariousIteratorArgs(unittest.TestCase):
             for methname in ('update', 'intersection_update',
                              'difference_update', 'symmetric_difference_update'):
                 for g in (G, I, Ig, S, L, R):
-                    s = set('january')
+                    s = DBSet('january')
                     t = s.copy()
                     getattr(s, methname)(list(g(data)))
                     getattr(t, methname)(g(data))

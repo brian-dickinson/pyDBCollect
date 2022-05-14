@@ -77,6 +77,8 @@ class DBSetIter():
 
 
 class DBSet(MutableSet):
+    __slots__ = ('db_url', 'engine', 'name', 'session', 'db_table', '__weakref__')
+
     def __contains__(self, x: object) -> bool:
         # for entry in self.session.query(self.db_table.entry_class).where(
         #         self.db_table.entry_class.hash == DBSet_Hash(x)).all():
@@ -87,6 +89,7 @@ class DBSet(MutableSet):
         x == 0
         return self.session.query(literal(True)).filter(exists().where(self.db_table.entry_class.hash == DBSet_Hash(x)).
                                                         where(self.db_table.entry_class.data == x)).limit(1).scalar()
+
     def __len__(self) -> int:
         return self.session.query(self.db_table.entry_class).count()
 
@@ -121,7 +124,7 @@ class DBSet(MutableSet):
 
             creator = lambda: sqlite3.connect(DB_URI, **params)
             self.engine = create_engine(self.db_url, echo=False, future=True,
-              creator=creator)
+                                        creator=creator)
 
         Base.metadata.create_all(self.engine)
         self.name = base64.urlsafe_b64encode(os.urandom(15))
@@ -171,14 +174,14 @@ class DBSet(MutableSet):
             return DBSet(self, db_url=self.engine.url)
 
     def __getstate__(self):
-        state = self.__dict__.copy()
-        del state['engine']
-        del state['session']
-        del state['db_table']
+        state = {}
+        state['name'] = self.name
+        state['db_url'] = self.db_url
         return state
 
     def __setstate__(self, state):
-        self.__dict__.update(state)
+        self.name = state['name']
+        self.db_url = state['db_url']
         if self.db_url != "sqlite:///:memory:?blank":
             self.engine = create_engine(self.db_url, echo=False, future=True)
         else:
@@ -191,7 +194,7 @@ class DBSet(MutableSet):
 
             creator = lambda: sqlite3.connect(DB_URI, **params)
             self.engine = create_engine(self.db_url, echo=False, future=True,
-              creator=creator)
+                                        creator=creator)
         Base.metadata.create_all(self.engine, checkfirst=True)
         self.db_table = DBSet_Meta(self.name)
         self.db_table.entry_class.__table__.create(bind=self.engine, checkfirst=True)
@@ -242,7 +245,7 @@ class DBSet(MutableSet):
                 # print("Removing from DBSet")
                 d = delete(self.db_table.entry_class).filter(
                     ~exists().where(other.db_table.entry_class.hash == self.db_table.entry_class.hash). \
-                    where(other.db_table.entry_class.data == self.db_table.entry_class.data)).execution_options(
+                        where(other.db_table.entry_class.data == self.db_table.entry_class.data)).execution_options(
                     synchronize_session=False)
                 # print(d)
                 self.session.execute(d)
@@ -265,7 +268,7 @@ class DBSet(MutableSet):
                 # print("Removing from DBSet")
                 d = delete(self.db_table.entry_class).filter(
                     exists().where(other.db_table.entry_class.hash == self.db_table.entry_class.hash). \
-                    where(other.db_table.entry_class.data == self.db_table.entry_class.data)).execution_options(
+                        where(other.db_table.entry_class.data == self.db_table.entry_class.data)).execution_options(
                     synchronize_session=False)
                 # print(d)
                 self.session.execute(d)
@@ -321,13 +324,14 @@ class DBSet(MutableSet):
     def isdisjoint(self, other: Iterable[Any]) -> bool:
         if isinstance(other, DBSet) and other.db_url == self.db_url:
             return self.session.query(self.db_table.entry_class).filter(
-                    exists().where(other.db_table.entry_class.hash == self.db_table.entry_class.hash).
-                            where(other.db_table.entry_class.data == self.db_table.entry_class.data)).limit(1).count() == 0
-                # return False
+                exists().where(other.db_table.entry_class.hash == self.db_table.entry_class.hash).
+                    where(other.db_table.entry_class.data == self.db_table.entry_class.data)).limit(1).count() == 0
+            # return False
         else:
             s = set(other)
-            return self.session.query(self.db_table.entry_class).filter(self.db_table.entry_class.data.in_(s)).limit(1).count() == 0 if len(s) > 0 else True
-                # return True
+            return self.session.query(self.db_table.entry_class).filter(self.db_table.entry_class.data.in_(s)).limit(
+                1).count() == 0 if len(s) > 0 else True
+            # return True
             # for item in other:
             #     if item in self: return False
         # return True
@@ -335,8 +339,8 @@ class DBSet(MutableSet):
     def issuperset(self, other):
         if isinstance(other, DBSet) and other.db_url == self.db_url:
             return other.session.query(other.db_table.entry_class).filter(
-                    ~exists().where(other.db_table.entry_class.hash == self.db_table.entry_class.hash).
-                            where(other.db_table.entry_class.data == self.db_table.entry_class.data)).limit(
+                ~exists().where(other.db_table.entry_class.hash == self.db_table.entry_class.hash).
+                    where(other.db_table.entry_class.data == self.db_table.entry_class.data)).limit(
                 1).count() == 0
         else:
             # s = set(other)
@@ -349,8 +353,8 @@ class DBSet(MutableSet):
     def issubset(self, other):
         if isinstance(other, DBSet) and other.db_url == self.db_url:
             return self.session.query(self.db_table.entry_class).filter(
-                    ~exists().where(other.db_table.entry_class.hash == self.db_table.entry_class.hash).
-                            where(other.db_table.entry_class.data == self.db_table.entry_class.data)).limit(
+                ~exists().where(other.db_table.entry_class.hash == self.db_table.entry_class.hash).
+                    where(other.db_table.entry_class.data == self.db_table.entry_class.data)).limit(
                 1).count() == 0
         else:
             s = set(other)
@@ -383,7 +387,6 @@ class DBSet(MutableSet):
             return self.difference(other)
         else:
             raise TypeError()
-
 
     def __ge__(self, other):
         if isinstance(other, Set):
