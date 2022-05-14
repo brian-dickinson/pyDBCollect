@@ -37,7 +37,9 @@
         <row name="test_remove_keyerror_set"
              reason="DBSet does not support &quot; containing &quot; other DBSets."/>
         <row name="test_discard" reason="DBSet does not support &quot; containing &quot; other DBSets."/>
-        <row name="test_copying" reason="database entries don't have memory addresses"/>
+        <row name="test_copy" reason="database entries don't have memory addresses"/>
+        <row name="test_repr" reason="DBSet repr is not the same as set repr"/>
+        <row name="test_changingSizeWhileIterating" reason="Iterator is not that complicated sorry."/>
     </lookup:test>
     <xsl:template match="/testrun">
 ## Summary:
@@ -55,8 +57,8 @@ Suite | Test | DBSet Passes? | Explanation
 
 <xsl:if test="not(boolean(document('')//lookup:suite/row[@name = $suiteName]))">
 <xsl:for-each select="test">
-
-<xsl:value-of select="$suiteName"/> |<xsl:value-of select="@name"/> |<xsl:value-of select="@status"/> | <xsl:value-of select="document('')//lookup:table/row[@name='$suiteName']/@reason"/><xsl:text>&#xa;</xsl:text>
+<xsl:variable name="testName" select="@name"/>
+<xsl:value-of select="$suiteName"/> |<xsl:value-of select="$testName"/> |<xsl:value-of select="@status"/> | <xsl:value-of select="document('')//lookup:test/row[@name= $testName]/@reason"/><xsl:text>&#xa;</xsl:text>
 
 
 </xsl:for-each>

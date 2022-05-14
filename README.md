@@ -32,21 +32,21 @@ TestSet | -(Category)- |failed |
 TestSet |test_add |passed | 
 TestSet |test_clear |passed | 
 TestSet |test_c_api |ignored | 
-TestSet |test_contains |passed | 
-TestSet |test_copy |passed | 
+TestSet |test_contains |passed | DBSet does not support " containing " other DBSets
+TestSet |test_copy |passed | database entries don't have memory addresses
 TestSet |test_difference_update |passed | 
 TestSet |test_difference |passed | 
 TestSet |test_and |passed | 
 TestSet |test_constructor_identity |passed | 
 TestSet |test_badcmp |passed | 
-TestSet |test_cyclical_repr |failed | 
-TestSet |test_container_iterator |failed | 
-TestSet |test_discard |passed | 
-TestSet |test_gc |failed | 
-TestSet |test_deepcopy |failed | 
+TestSet |test_cyclical_repr |failed | DBSet does not support self-referential sets.
+TestSet |test_container_iterator |failed | Unpickleable inner class.
+TestSet |test_discard |passed | DBSet does not support " containing " other DBSets.
+TestSet |test_gc |failed | Unpickleable inner class.
+TestSet |test_deepcopy |failed | Unpickleable inner class.
 TestSet |test_inplace_on_self |passed | 
 TestSet |test_isdisjoint |passed | 
-TestSet |test_do_not_rehash_dict_keys |failed | 
+TestSet |test_do_not_rehash_dict_keys |failed | Unnecessary optimization
 TestSet |test_hash |passed | 
 TestSet |test_intersection |passed | 
 TestSet |test_equality |passed | 
@@ -54,23 +54,23 @@ TestSet |test_iand |passed |
 TestSet |test_intersection_update |passed | 
 TestSet |test_isub |passed | 
 TestSet |test_new_or_init |passed | 
-TestSet |test_remove |passed | 
+TestSet |test_remove |passed | DBSet does not support " containing " other DBSets.
 TestSet |test_setOfFrozensets |passed | 
 TestSet |test_sub |passed | 
 TestSet |test_symmetric_difference_update |passed | 
 TestSet |test_weakref |passed | 
-TestSet |test_free_after_iterating |passed | 
+TestSet |test_free_after_iterating |passed | Unpickleable inner class.
 TestSet |test_init |passed | 
 TestSet |test_ior |passed | 
 TestSet |test_ixor |passed | 
 TestSet |test_pickling |passed | 
 TestSet |test_remove_keyerror_unpacking |passed | 
 TestSet |test_set_literal_evaluation_order |passed | 
-TestSet |test_subclass_with_custom_hash |failed | 
+TestSet |test_subclass_with_custom_hash |failed | Unpickleable inner class.
 TestSet |test_uniquification |passed | 
-TestSet |test_iterator_pickling |failed | 
+TestSet |test_iterator_pickling |failed | Cannot make iterator pickleable.
 TestSet |test_or |passed | 
-TestSet |test_remove_keyerror_set |failed | 
+TestSet |test_remove_keyerror_set |failed | DBSet does not support " containing " other DBSets.
 TestSet |test_set_literal |passed | 
 TestSet |test_sub_and_super |passed | 
 TestSet |test_union |passed | 
@@ -83,14 +83,14 @@ TestSet |test_symmetric_difference |passed |
 TestSet |test_update |passed | 
 TestSetSubclass | -(Category)- |failed | 
 TestSetSubclass |test_badcmp |passed | 
-TestSetSubclass |test_container_iterator |failed | 
-TestSetSubclass |test_deepcopy |failed | 
-TestSetSubclass |test_do_not_rehash_dict_keys |failed | 
+TestSetSubclass |test_container_iterator |failed | Unpickleable inner class.
+TestSetSubclass |test_deepcopy |failed | Unpickleable inner class.
+TestSetSubclass |test_do_not_rehash_dict_keys |failed | Unnecessary optimization
 TestSetSubclass |test_hash |passed | 
 TestSetSubclass |test_intersection |passed | 
 TestSetSubclass |test_add |passed | 
 TestSetSubclass |test_clear |passed | 
-TestSetSubclass |test_copy |passed | 
+TestSetSubclass |test_copy |passed | database entries don't have memory addresses
 TestSetSubclass |test_difference_update |passed | 
 TestSetSubclass |test_isub |passed | 
 TestSetSubclass |test_len |passed | 
@@ -100,14 +100,14 @@ TestSetSubclass |test_set_literal_insertion_order |passed |
 TestSetSubclass |test_symmetric_difference |passed | 
 TestSetSubclass |test_update |passed | 
 TestSetSubclass |test_c_api |ignored | 
-TestSetSubclass |test_contains |passed | 
+TestSetSubclass |test_contains |passed | DBSet does not support " containing " other DBSets
 TestSetSubclass |test_difference |passed | 
-TestSetSubclass |test_free_after_iterating |passed | 
+TestSetSubclass |test_free_after_iterating |passed | Unpickleable inner class.
 TestSetSubclass |test_init |passed | 
 TestSetSubclass |test_ior |passed | 
 TestSetSubclass |test_ixor |passed | 
 TestSetSubclass |test_or |passed | 
-TestSetSubclass |test_remove_keyerror_set |failed | 
+TestSetSubclass |test_remove_keyerror_set |failed | DBSet does not support " containing " other DBSets.
 TestSetSubclass |test_set_literal |passed | 
 TestSetSubclass |test_sub_and_super |passed | 
 TestSetSubclass |test_union |passed | 
@@ -115,31 +115,31 @@ TestSetSubclass |test_equality |passed |
 TestSetSubclass |test_iand |passed | 
 TestSetSubclass |test_intersection_update |passed | 
 TestSetSubclass |test_xor |passed | 
-TestSetSubclass |test_iterator_pickling |failed | 
+TestSetSubclass |test_iterator_pickling |failed | Cannot make iterator pickleable.
 TestSetSubclass |test_new_or_init |passed | 
-TestSetSubclass |test_remove |passed | 
+TestSetSubclass |test_remove |passed | DBSet does not support " containing " other DBSets.
 TestSetSubclass |test_setOfFrozensets |passed | 
 TestSetSubclass |test_sub |passed | 
 TestSetSubclass |test_symmetric_difference_update |passed | 
 TestSetSubclass |test_weakref |passed | 
 TestSetSubclass |test_and |passed | 
 TestSetSubclass |test_constructor_identity |passed | 
-TestSetSubclass |test_cyclical_repr |failed | 
-TestSetSubclass |test_discard |passed | 
-TestSetSubclass |test_gc |failed | 
+TestSetSubclass |test_cyclical_repr |failed | DBSet does not support self-referential sets.
+TestSetSubclass |test_discard |passed | DBSet does not support " containing " other DBSets.
+TestSetSubclass |test_gc |failed | Unpickleable inner class.
 TestSetSubclass |test_inplace_on_self |passed | 
 TestSetSubclass |test_isdisjoint |passed | 
-TestSetSubclass |test_keywords_in_subclass |failed | 
+TestSetSubclass |test_keywords_in_subclass |failed | Keywords are used in init.
 TestSetSubclass |test_pickling |failed | 
 TestSetSubclass |test_remove_keyerror_unpacking |passed | 
 TestSetSubclass |test_set_literal_evaluation_order |passed | 
-TestSetSubclass |test_subclass_with_custom_hash |failed | 
+TestSetSubclass |test_subclass_with_custom_hash |failed | Unpickleable inner class.
 TestSetSubclass |test_uniquification |passed | 
 TestFrozenSet | -(Category)- |failed | No frozenset implementation.
 TestFrozenSetSubclass | -(Category)- |failed | No frozenset implementation.
 TestBasicOps | -(Category)- |failed | Not an actual test.
 TestBasicOpsEmpty | -(Category)- |failed | 
-TestBasicOpsEmpty |test_copy |passed | 
+TestBasicOpsEmpty |test_copy |passed | database entries don't have memory addresses
 TestBasicOpsEmpty |test_empty_difference |passed | 
 TestBasicOpsEmpty |test_empty_difference_rev |passed | 
 TestBasicOpsEmpty |test_empty_intersection |passed | 
@@ -153,7 +153,7 @@ TestBasicOpsEmpty |test_issue_37219 |passed |
 TestBasicOpsEmpty |test_iteration |passed | 
 TestBasicOpsEmpty |test_length |passed | 
 TestBasicOpsEmpty |test_pickling |passed | 
-TestBasicOpsEmpty |test_repr |failed | 
+TestBasicOpsEmpty |test_repr |failed | DBSet repr is not the same as set repr
 TestBasicOpsEmpty |test_self_difference |passed | 
 TestBasicOpsEmpty |test_self_equality |passed | 
 TestBasicOpsEmpty |test_self_intersection |passed | 
@@ -163,7 +163,7 @@ TestBasicOpsEmpty |test_self_union |passed |
 TestBasicOpsEmpty |test_union_empty |passed | 
 TestBasicOpsTriple | -(Category)- |passed | 
 TestBasicOpsTriple |test_pickling |passed | 
-TestBasicOpsTriple |test_repr |passed | 
+TestBasicOpsTriple |test_repr |passed | DBSet repr is not the same as set repr
 TestBasicOpsTriple |test_self_difference |passed | 
 TestBasicOpsTriple |test_self_equality |passed | 
 TestBasicOpsTriple |test_self_intersection |passed | 
@@ -171,7 +171,7 @@ TestBasicOpsTriple |test_self_isdisjoint |passed |
 TestBasicOpsTriple |test_self_symmetric_difference |passed | 
 TestBasicOpsTriple |test_self_union |passed | 
 TestBasicOpsTriple |test_union_empty |passed | 
-TestBasicOpsTriple |test_copy |passed | 
+TestBasicOpsTriple |test_copy |passed | database entries don't have memory addresses
 TestBasicOpsTriple |test_empty_difference |passed | 
 TestBasicOpsTriple |test_empty_difference_rev |passed | 
 TestBasicOpsTriple |test_empty_intersection |passed | 
@@ -185,7 +185,7 @@ TestBasicOpsTriple |test_issue_37219 |passed |
 TestBasicOpsTriple |test_iteration |passed | 
 TestBasicOpsTriple |test_length |passed | 
 TestBasicOpsString | -(Category)- |failed | 
-TestBasicOpsString |test_copy |passed | 
+TestBasicOpsString |test_copy |passed | database entries don't have memory addresses
 TestBasicOpsString |test_empty_difference |passed | 
 TestBasicOpsString |test_empty_difference_rev |passed | 
 TestBasicOpsString |test_empty_intersection |passed | 
@@ -199,7 +199,7 @@ TestBasicOpsString |test_issue_37219 |passed |
 TestBasicOpsString |test_iteration |passed | 
 TestBasicOpsString |test_length |passed | 
 TestBasicOpsString |test_pickling |passed | 
-TestBasicOpsString |test_repr |failed | 
+TestBasicOpsString |test_repr |failed | DBSet repr is not the same as set repr
 TestBasicOpsString |test_self_difference |passed | 
 TestBasicOpsString |test_self_equality |passed | 
 TestBasicOpsString |test_self_intersection |passed | 
@@ -208,7 +208,7 @@ TestBasicOpsString |test_self_symmetric_difference |passed |
 TestBasicOpsString |test_self_union |passed | 
 TestBasicOpsString |test_union_empty |passed | 
 TestBasicOpsBytes | -(Category)- |passed | 
-TestBasicOpsBytes |test_copy |passed | 
+TestBasicOpsBytes |test_copy |passed | database entries don't have memory addresses
 TestBasicOpsBytes |test_empty_difference |passed | 
 TestBasicOpsBytes |test_empty_difference_rev |passed | 
 TestBasicOpsBytes |test_empty_intersection |passed | 
@@ -222,7 +222,7 @@ TestBasicOpsBytes |test_issue_37219 |passed |
 TestBasicOpsBytes |test_iteration |passed | 
 TestBasicOpsBytes |test_length |passed | 
 TestBasicOpsBytes |test_pickling |passed | 
-TestBasicOpsBytes |test_repr |passed | 
+TestBasicOpsBytes |test_repr |passed | DBSet repr is not the same as set repr
 TestBasicOpsBytes |test_self_difference |passed | 
 TestBasicOpsBytes |test_self_equality |passed | 
 TestBasicOpsBytes |test_self_intersection |passed | 
@@ -241,7 +241,7 @@ TestBasicOpsTuple |test_iteration |passed |
 TestBasicOpsTuple |test_length |passed | 
 TestBasicOpsTuple |test_not_in |passed | 
 TestBasicOpsTuple |test_pickling |passed | 
-TestBasicOpsTuple |test_repr |passed | 
+TestBasicOpsTuple |test_repr |passed | DBSet repr is not the same as set repr
 TestBasicOpsTuple |test_self_difference |passed | 
 TestBasicOpsTuple |test_self_equality |passed | 
 TestBasicOpsTuple |test_self_intersection |passed | 
@@ -249,14 +249,14 @@ TestBasicOpsTuple |test_self_isdisjoint |passed |
 TestBasicOpsTuple |test_self_symmetric_difference |passed | 
 TestBasicOpsTuple |test_self_union |passed | 
 TestBasicOpsTuple |test_union_empty |passed | 
-TestBasicOpsTuple |test_copy |passed | 
+TestBasicOpsTuple |test_copy |passed | database entries don't have memory addresses
 TestBasicOpsTuple |test_empty_difference |passed | 
 TestBasicOpsTuple |test_empty_difference_rev |passed | 
 TestBasicOpsTuple |test_empty_intersection |passed | 
 TestBasicOpsTuple |test_empty_isdisjoint |passed | 
 TestBasicOpsTuple |test_empty_symmetric_difference |passed | 
 TestBasicOpsMixedStringBytes | -(Category)- |failed | 
-TestBasicOpsMixedStringBytes |test_copy |failed | 
+TestBasicOpsMixedStringBytes |test_copy |failed | database entries don't have memory addresses
 TestBasicOpsMixedStringBytes |test_empty_difference |failed | 
 TestBasicOpsMixedStringBytes |test_empty_difference_rev |failed | 
 TestBasicOpsMixedStringBytes |test_empty_intersection |failed | 
@@ -270,7 +270,7 @@ TestBasicOpsMixedStringBytes |test_issue_37219 |failed |
 TestBasicOpsMixedStringBytes |test_iteration |failed | 
 TestBasicOpsMixedStringBytes |test_length |failed | 
 TestBasicOpsMixedStringBytes |test_pickling |failed | 
-TestBasicOpsMixedStringBytes |test_repr |failed | 
+TestBasicOpsMixedStringBytes |test_repr |failed | DBSet repr is not the same as set repr
 TestBasicOpsMixedStringBytes |test_self_difference |failed | 
 TestBasicOpsMixedStringBytes |test_self_equality |failed | 
 TestBasicOpsMixedStringBytes |test_self_intersection |failed | 
@@ -279,7 +279,7 @@ TestBasicOpsMixedStringBytes |test_self_symmetric_difference |failed |
 TestBasicOpsMixedStringBytes |test_self_union |failed | 
 TestBasicOpsMixedStringBytes |test_union_empty |failed | 
 TestExceptionPropagation | -(Category)- |failed | 
-TestExceptionPropagation |test_changingSizeWhileIterating |failed | 
+TestExceptionPropagation |test_changingSizeWhileIterating |failed | Iterator is not that complicated sorry.
 TestExceptionPropagation |test_instanceWithException |passed | 
 TestExceptionPropagation |test_instancesWithoutException |passed | 
 TestSetOfSets | -(Category)- |passed | 
@@ -440,26 +440,26 @@ TestOnlySetsString |test_union |passed |
 TestOnlySetsString |test_update |passed | 
 TestOnlySetsString |test_update_operator |passed | 
 TestCopying | -(Category)- |failed | 
-TestCopying |test_copy |failed | 
+TestCopying |test_copy |failed | database entries don't have memory addresses
 TestCopying |test_deep_copy |failed | 
 TestCopyingEmpty | -(Category)- |passed | 
-TestCopyingEmpty |test_copy |passed | 
+TestCopyingEmpty |test_copy |passed | database entries don't have memory addresses
 TestCopyingEmpty |test_deep_copy |passed | 
 TestCopyingSingleton | -(Category)- |failed | 
-TestCopyingSingleton |test_copy |failed | 
+TestCopyingSingleton |test_copy |failed | database entries don't have memory addresses
 TestCopyingSingleton |test_deep_copy |passed | 
 TestCopyingTriple | -(Category)- |failed | 
 TestCopyingTriple |test_deep_copy |passed | 
-TestCopyingTriple |test_copy |failed | 
+TestCopyingTriple |test_copy |failed | database entries don't have memory addresses
 TestCopyingTuple | -(Category)- |failed | 
-TestCopyingTuple |test_copy |failed | 
+TestCopyingTuple |test_copy |failed | database entries don't have memory addresses
 TestCopyingTuple |test_deep_copy |passed | 
 TestWeirdBugs | -(Category)- |failed | 
 TestWeirdBugs |test_iter_and_mutate |failed | 
 TestWeirdBugs |test_merge_and_mutate |passed | 
 TestWeirdBugs |test_8420_set_merge |passed | 
 TestCopyingNested | -(Category)- |failed | 
-TestCopyingNested |test_copy |failed | 
+TestCopyingNested |test_copy |failed | database entries don't have memory addresses
 TestCopyingNested |test_deep_copy |passed | 
 TestBinaryOpsMutating | -(Category)- |failed | Not an actual test.
 TestIdentities | -(Category)- |passed | 
@@ -481,7 +481,7 @@ TestMethodsMutating_Subclass_Subclass | -(Category)- |failed | Makes heavy use o
 TestMethodsMutating_Set_Subclass | -(Category)- |failed | Makes heavy use of unpickleable inner classes.
 TestMethodsMutating_Subclass_Set | -(Category)- |failed | Makes heavy use of unpickleable inner classes.
 TestBasicOpsSingleton | -(Category)- |passed | 
-TestBasicOpsSingleton |test_copy |passed | 
+TestBasicOpsSingleton |test_copy |passed | database entries don't have memory addresses
 TestBasicOpsSingleton |test_empty_difference |passed | 
 TestBasicOpsSingleton |test_empty_difference_rev |passed | 
 TestBasicOpsSingleton |test_empty_intersection |passed | 
@@ -497,7 +497,7 @@ TestBasicOpsSingleton |test_iteration |passed |
 TestBasicOpsSingleton |test_length |passed | 
 TestBasicOpsSingleton |test_not_in |passed | 
 TestBasicOpsSingleton |test_pickling |passed | 
-TestBasicOpsSingleton |test_repr |passed | 
+TestBasicOpsSingleton |test_repr |passed | DBSet repr is not the same as set repr
 TestBasicOpsSingleton |test_self_difference |passed | 
 TestBasicOpsSingleton |test_self_equality |passed | 
 TestBasicOpsSingleton |test_self_intersection |passed | 
