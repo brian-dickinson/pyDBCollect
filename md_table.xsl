@@ -10,6 +10,16 @@
         <row name="TestSubsets" reason="Not an actual test."/>
         <row name="TestOnlySetsInBinaryOps" reason="Not an actual test."/>
         <row name="TestMethodsMutating" reason="Not an actual test."/>
+        <row name="TestBinaryOpsMutating_Set_Set" reason="Makes heavy use of unpickleable inner classes."/>
+        <row name="TestBinaryOpsMutating_Subclass_Subclass" reason="Makes heavy use of unpickleable inner classes."/>
+        <row name="TestBinaryOpsMutating_Set_Subclass" reason="Makes heavy use of unpickleable inner classes."/>
+        <row name="TestBinaryOpsMutating_Subclass_Set" reason="Makes heavy use of unpickleable inner classes."/>
+        <row name="TestMethodsMutating_Set_Set" reason="Makes heavy use of unpickleable inner classes."/>
+        <row name="TestMethodsMutating_Subclass_Set" reason="Makes heavy use of unpickleable inner classes."/>
+        <row name="TestMethodsMutating_Set_Subclass" reason="Makes heavy use of unpickleable inner classes."/>
+        <row name="TestMethodsMutating_Subclass_Subclass" reason="Makes heavy use of unpickleable inner classes."/>
+        <row name="TestMethodsMutating_Set_Dict" reason="Makes heavy use of unpickleable inner classes."/>
+        <row name="TestMethodsMutating_Set_List" reason="Makes heavy use of unpickleable inner classes."/>
     </lookup:suite>
     <lookup:test>
         <row name="keyword_init" reason="Keywords are used in init."/>

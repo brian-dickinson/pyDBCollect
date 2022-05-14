@@ -19,7 +19,11 @@ tests for the standard set in python stdlib. All objects in a set must not only
 be hashable (requirement for standard set) but also pickleable.
 
 ### Summary:
-Passed 432 out of 716 tests.
+Passed
+432
+out of
+716
+tests.
 
 Suite | Test | DBSet Passes? | Explanation
 ---|------|---|---
@@ -463,123 +467,19 @@ TestIdentities |test_binopsVsSubsets |passed |
 TestIdentities |test_commutativity |passed | 
 TestIdentities |test_exclusion |passed | 
 TestIdentities |test_summations |passed | 
-TestBinaryOpsMutating_Set_Set | -(Category)- |failed | 
-TestBinaryOpsMutating_Set_Set |test_and_with_mutation |failed | 
-TestBinaryOpsMutating_Set_Set |test_eq_with_mutation |failed | 
-TestBinaryOpsMutating_Set_Set |test_ge_with_mutation |failed | 
-TestBinaryOpsMutating_Set_Set |test_gt_with_mutation |failed | 
-TestBinaryOpsMutating_Set_Set |test_iadd_with_mutation |failed | 
-TestBinaryOpsMutating_Set_Set |test_ior_with_mutation |failed | 
-TestBinaryOpsMutating_Set_Set |test_isub_with_mutation |failed | 
-TestBinaryOpsMutating_Set_Set |test_iteration_with_mutation |failed | 
-TestBinaryOpsMutating_Set_Set |test_ixor_with_mutation |failed | 
-TestBinaryOpsMutating_Set_Set |test_le_with_mutation |failed | 
-TestBinaryOpsMutating_Set_Set |test_lt_with_mutation |failed | 
-TestBinaryOpsMutating_Set_Set |test_ne_with_mutation |failed | 
-TestBinaryOpsMutating_Set_Set |test_or_with_mutation |failed | 
-TestBinaryOpsMutating_Set_Set |test_sub_with_mutation |failed | 
-TestBinaryOpsMutating_Set_Set |test_xor_with_mutation |failed | 
+TestBinaryOpsMutating_Set_Set | -(Category)- |failed | Makes heavy use of unpickleable inner classes.
 TestVariousIteratorArgs | -(Category)- |failed | 
 TestVariousIteratorArgs |test_constructor |passed | 
 TestVariousIteratorArgs |test_inline_methods |failed | 
 TestVariousIteratorArgs |test_inplace_methods |failed | 
-TestBinaryOpsMutating_Subclass_Subclass | -(Category)- |failed | 
-TestBinaryOpsMutating_Subclass_Subclass |test_and_with_mutation |failed | 
-TestBinaryOpsMutating_Subclass_Subclass |test_eq_with_mutation |failed | 
-TestBinaryOpsMutating_Subclass_Subclass |test_ge_with_mutation |failed | 
-TestBinaryOpsMutating_Subclass_Subclass |test_gt_with_mutation |failed | 
-TestBinaryOpsMutating_Subclass_Subclass |test_iadd_with_mutation |failed | 
-TestBinaryOpsMutating_Subclass_Subclass |test_ior_with_mutation |failed | 
-TestBinaryOpsMutating_Subclass_Subclass |test_isub_with_mutation |failed | 
-TestBinaryOpsMutating_Subclass_Subclass |test_iteration_with_mutation |failed | 
-TestBinaryOpsMutating_Subclass_Subclass |test_ixor_with_mutation |failed | 
-TestBinaryOpsMutating_Subclass_Subclass |test_le_with_mutation |failed | 
-TestBinaryOpsMutating_Subclass_Subclass |test_lt_with_mutation |failed | 
-TestBinaryOpsMutating_Subclass_Subclass |test_ne_with_mutation |failed | 
-TestBinaryOpsMutating_Subclass_Subclass |test_or_with_mutation |failed | 
-TestBinaryOpsMutating_Subclass_Subclass |test_sub_with_mutation |failed | 
-TestBinaryOpsMutating_Subclass_Subclass |test_xor_with_mutation |failed | 
-TestBinaryOpsMutating_Set_Subclass | -(Category)- |failed | 
-TestBinaryOpsMutating_Set_Subclass |test_and_with_mutation |failed | 
-TestBinaryOpsMutating_Set_Subclass |test_eq_with_mutation |failed | 
-TestBinaryOpsMutating_Set_Subclass |test_ge_with_mutation |failed | 
-TestBinaryOpsMutating_Set_Subclass |test_gt_with_mutation |failed | 
-TestBinaryOpsMutating_Set_Subclass |test_iadd_with_mutation |failed | 
-TestBinaryOpsMutating_Set_Subclass |test_ior_with_mutation |failed | 
-TestBinaryOpsMutating_Set_Subclass |test_isub_with_mutation |failed | 
-TestBinaryOpsMutating_Set_Subclass |test_iteration_with_mutation |failed | 
-TestBinaryOpsMutating_Set_Subclass |test_ixor_with_mutation |failed | 
-TestBinaryOpsMutating_Set_Subclass |test_le_with_mutation |failed | 
-TestBinaryOpsMutating_Set_Subclass |test_lt_with_mutation |failed | 
-TestBinaryOpsMutating_Set_Subclass |test_ne_with_mutation |failed | 
-TestBinaryOpsMutating_Set_Subclass |test_or_with_mutation |failed | 
-TestBinaryOpsMutating_Set_Subclass |test_sub_with_mutation |failed | 
-TestBinaryOpsMutating_Set_Subclass |test_xor_with_mutation |failed | 
-TestBinaryOpsMutating_Subclass_Set | -(Category)- |failed | 
-TestBinaryOpsMutating_Subclass_Set |test_and_with_mutation |failed | 
-TestBinaryOpsMutating_Subclass_Set |test_eq_with_mutation |failed | 
-TestBinaryOpsMutating_Subclass_Set |test_ge_with_mutation |failed | 
-TestBinaryOpsMutating_Subclass_Set |test_gt_with_mutation |failed | 
-TestBinaryOpsMutating_Subclass_Set |test_iadd_with_mutation |failed | 
-TestBinaryOpsMutating_Subclass_Set |test_ior_with_mutation |failed | 
-TestBinaryOpsMutating_Subclass_Set |test_isub_with_mutation |failed | 
-TestBinaryOpsMutating_Subclass_Set |test_iteration_with_mutation |failed | 
-TestBinaryOpsMutating_Subclass_Set |test_ixor_with_mutation |failed | 
-TestBinaryOpsMutating_Subclass_Set |test_le_with_mutation |failed | 
-TestBinaryOpsMutating_Subclass_Set |test_lt_with_mutation |failed | 
-TestBinaryOpsMutating_Subclass_Set |test_ne_with_mutation |failed | 
-TestBinaryOpsMutating_Subclass_Set |test_or_with_mutation |failed | 
-TestBinaryOpsMutating_Subclass_Set |test_sub_with_mutation |failed | 
-TestBinaryOpsMutating_Subclass_Set |test_xor_with_mutation |failed | 
+TestBinaryOpsMutating_Subclass_Subclass | -(Category)- |failed | Makes heavy use of unpickleable inner classes.
+TestBinaryOpsMutating_Set_Subclass | -(Category)- |failed | Makes heavy use of unpickleable inner classes.
+TestBinaryOpsMutating_Subclass_Set | -(Category)- |failed | Makes heavy use of unpickleable inner classes.
 TestMethodsMutating | -(Category)- |failed | Not an actual test.
-TestMethodsMutating_Set_Set | -(Category)- |failed | 
-TestMethodsMutating_Set_Set |test_difference_update_with_mutation |failed | 
-TestMethodsMutating_Set_Set |test_difference_with_mutation |failed | 
-TestMethodsMutating_Set_Set |test_intersection_update_with_mutation |failed | 
-TestMethodsMutating_Set_Set |test_intersection_with_mutation |failed | 
-TestMethodsMutating_Set_Set |test_isdisjoint_with_mutation |failed | 
-TestMethodsMutating_Set_Set |test_issubset_with_mutation |failed | 
-TestMethodsMutating_Set_Set |test_issuperset_with_mutation |failed | 
-TestMethodsMutating_Set_Set |test_symmetric_difference_update_with_mutation |failed | 
-TestMethodsMutating_Set_Set |test_symmetric_difference_with_mutation |failed | 
-TestMethodsMutating_Set_Set |test_union_with_mutation |failed | 
-TestMethodsMutating_Set_Set |test_update_with_mutation |failed | 
-TestMethodsMutating_Subclass_Subclass | -(Category)- |failed | 
-TestMethodsMutating_Subclass_Subclass |test_difference_update_with_mutation |failed | 
-TestMethodsMutating_Subclass_Subclass |test_difference_with_mutation |failed | 
-TestMethodsMutating_Subclass_Subclass |test_intersection_update_with_mutation |failed | 
-TestMethodsMutating_Subclass_Subclass |test_intersection_with_mutation |failed | 
-TestMethodsMutating_Subclass_Subclass |test_isdisjoint_with_mutation |failed | 
-TestMethodsMutating_Subclass_Subclass |test_issubset_with_mutation |failed | 
-TestMethodsMutating_Subclass_Subclass |test_issuperset_with_mutation |failed | 
-TestMethodsMutating_Subclass_Subclass |test_symmetric_difference_update_with_mutation |failed | 
-TestMethodsMutating_Subclass_Subclass |test_symmetric_difference_with_mutation |failed | 
-TestMethodsMutating_Subclass_Subclass |test_union_with_mutation |failed | 
-TestMethodsMutating_Subclass_Subclass |test_update_with_mutation |failed | 
-TestMethodsMutating_Set_Subclass | -(Category)- |failed | 
-TestMethodsMutating_Set_Subclass |test_difference_update_with_mutation |failed | 
-TestMethodsMutating_Set_Subclass |test_difference_with_mutation |failed | 
-TestMethodsMutating_Set_Subclass |test_intersection_update_with_mutation |failed | 
-TestMethodsMutating_Set_Subclass |test_intersection_with_mutation |failed | 
-TestMethodsMutating_Set_Subclass |test_isdisjoint_with_mutation |failed | 
-TestMethodsMutating_Set_Subclass |test_issubset_with_mutation |failed | 
-TestMethodsMutating_Set_Subclass |test_issuperset_with_mutation |failed | 
-TestMethodsMutating_Set_Subclass |test_symmetric_difference_update_with_mutation |failed | 
-TestMethodsMutating_Set_Subclass |test_symmetric_difference_with_mutation |failed | 
-TestMethodsMutating_Set_Subclass |test_union_with_mutation |failed | 
-TestMethodsMutating_Set_Subclass |test_update_with_mutation |failed | 
-TestMethodsMutating_Subclass_Set | -(Category)- |failed | 
-TestMethodsMutating_Subclass_Set |test_difference_update_with_mutation |failed | 
-TestMethodsMutating_Subclass_Set |test_difference_with_mutation |failed | 
-TestMethodsMutating_Subclass_Set |test_intersection_update_with_mutation |failed | 
-TestMethodsMutating_Subclass_Set |test_intersection_with_mutation |failed | 
-TestMethodsMutating_Subclass_Set |test_isdisjoint_with_mutation |failed | 
-TestMethodsMutating_Subclass_Set |test_issubset_with_mutation |failed | 
-TestMethodsMutating_Subclass_Set |test_issuperset_with_mutation |failed | 
-TestMethodsMutating_Subclass_Set |test_symmetric_difference_update_with_mutation |failed | 
-TestMethodsMutating_Subclass_Set |test_symmetric_difference_with_mutation |failed | 
-TestMethodsMutating_Subclass_Set |test_union_with_mutation |failed | 
-TestMethodsMutating_Subclass_Set |test_update_with_mutation |failed | 
+TestMethodsMutating_Set_Set | -(Category)- |failed | Makes heavy use of unpickleable inner classes.
+TestMethodsMutating_Subclass_Subclass | -(Category)- |failed | Makes heavy use of unpickleable inner classes.
+TestMethodsMutating_Set_Subclass | -(Category)- |failed | Makes heavy use of unpickleable inner classes.
+TestMethodsMutating_Subclass_Set | -(Category)- |failed | Makes heavy use of unpickleable inner classes.
 TestBasicOpsSingleton | -(Category)- |passed | 
 TestBasicOpsSingleton |test_copy |passed | 
 TestBasicOpsSingleton |test_empty_difference |passed | 
@@ -605,30 +505,8 @@ TestBasicOpsSingleton |test_self_isdisjoint |passed |
 TestBasicOpsSingleton |test_self_symmetric_difference |passed | 
 TestBasicOpsSingleton |test_self_union |passed | 
 TestBasicOpsSingleton |test_union_empty |passed | 
-TestMethodsMutating_Set_Dict | -(Category)- |failed | 
-TestMethodsMutating_Set_Dict |test_difference_update_with_mutation |failed | 
-TestMethodsMutating_Set_Dict |test_difference_with_mutation |failed | 
-TestMethodsMutating_Set_Dict |test_intersection_update_with_mutation |failed | 
-TestMethodsMutating_Set_Dict |test_intersection_with_mutation |failed | 
-TestMethodsMutating_Set_Dict |test_isdisjoint_with_mutation |failed | 
-TestMethodsMutating_Set_Dict |test_issubset_with_mutation |failed | 
-TestMethodsMutating_Set_Dict |test_issuperset_with_mutation |failed | 
-TestMethodsMutating_Set_Dict |test_symmetric_difference_update_with_mutation |failed | 
-TestMethodsMutating_Set_Dict |test_symmetric_difference_with_mutation |failed | 
-TestMethodsMutating_Set_Dict |test_union_with_mutation |failed | 
-TestMethodsMutating_Set_Dict |test_update_with_mutation |failed | 
-TestMethodsMutating_Set_List | -(Category)- |failed | 
-TestMethodsMutating_Set_List |test_difference_update_with_mutation |failed | 
-TestMethodsMutating_Set_List |test_difference_with_mutation |failed | 
-TestMethodsMutating_Set_List |test_intersection_update_with_mutation |failed | 
-TestMethodsMutating_Set_List |test_intersection_with_mutation |failed | 
-TestMethodsMutating_Set_List |test_isdisjoint_with_mutation |failed | 
-TestMethodsMutating_Set_List |test_issubset_with_mutation |failed | 
-TestMethodsMutating_Set_List |test_issuperset_with_mutation |failed | 
-TestMethodsMutating_Set_List |test_symmetric_difference_update_with_mutation |failed | 
-TestMethodsMutating_Set_List |test_symmetric_difference_with_mutation |failed | 
-TestMethodsMutating_Set_List |test_union_with_mutation |failed | 
-TestMethodsMutating_Set_List |test_update_with_mutation |failed | 
+TestMethodsMutating_Set_Dict | -(Category)- |failed | Makes heavy use of unpickleable inner classes.
+TestMethodsMutating_Set_List | -(Category)- |failed | Makes heavy use of unpickleable inner classes.
 TestGraphs | -(Category)- |failed | 
 TestGraphs |test_cube |failed | 
 TestGraphs |test_cuboctahedron |failed | 
